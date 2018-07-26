@@ -22,18 +22,24 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver.response;
+package com.sangwon.httpserver.preprocessor;
 
+import com.sangwon.httpserver.method.Method;
 import com.sangwon.httpserver.request.Request;
+import com.sangwon.httpserver.response.Response;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-11
+ * @since 2018-07-24
  */
 
-public class ResponseBuilder {
-    public static Response build(Request request){
-        Response res = new Response();
-        return new Response();
+public abstract class Preprocessor {
+    private Request request;
+    private Response response;
+
+    public Preprocessor(Method method){
+        this.request = method.getRequest();
     }
+
+    public abstract Response getResponse(Method method);
 }

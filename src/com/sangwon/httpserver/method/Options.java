@@ -24,10 +24,21 @@
 
 package com.sangwon.httpserver.method;
 
+import com.sangwon.httpserver.request.Request;
+import com.sangwon.httpserver.response.Response;
+
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-07-08
  */
 
 public class Options extends Method {
+    public Options(Request request){
+        super(request);
+    }
+
+    @Override
+    public Response getResponse(){
+        return this.response;
+    }
 }

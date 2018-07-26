@@ -24,10 +24,45 @@
 
 package com.sangwon.httpserver.method;
 
+import com.sangwon.httpserver.request.Request;
+import com.sangwon.httpserver.response.Response;
+import com.sangwon.httpserver.response.ResponseCode;
+import com.sangwon.httpserver.utils.FileLoader;
+
+import java.io.*;
+
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-07-08
  */
 
 public class Get extends Method {
+    public Get(Request request) {
+        super(request);
+    }
+
+    @Override
+    public Response getResponse(){
+        this.response.setVersion(request.getVersion());
+        try{
+            File file = FileLoader.getFile(request.getUri());
+            FileReader fReader = new FileReader(file);
+            BufferedReader bReader = new BufferedReader(fReader);
+            String fileContent = "";
+            int currentFileContent;
+
+            while ((currentFileContent = fReader.read()) != -1) {
+                fileContent += (char) currentFileContent;
+            }
+
+            this.response.setBody(fileContent);
+        }catch(FileNotFoundException fileNotFoundEx){
+            this.response.setStatus(404);
+            this.response.setBody(ResponseCode.getMessage(404));
+        }catch(IOException ioEx){
+            this.response.setStatus(500);
+            this.response.setBody(ResponseCode.getMessage((500)));
+        }
+        return this.response;
+    }
 }

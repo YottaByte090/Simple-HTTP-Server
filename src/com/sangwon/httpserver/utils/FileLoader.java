@@ -22,26 +22,29 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver;
-import java.io.IOException;
+package com.sangwon.httpserver.utils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-08
+ * @since 2018-07-26
  */
 
-public class WebServer {
-    public static void main(String[] args){
-        HttpServer server = new HttpServer(80);
+public class FileLoader{
+    public static File getFile(String filePath) throws FileNotFoundException {
+        File file = new File(System.getProperty("user.dir") + "/root" + filePath);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            server.stop();
-        }));
+        if(filePath.equals("/")){
+            file = new File(System.getProperty("user.dir") + "/root/index.html");
+        }
+        System.out.println(file);
 
-        try{
-            server.start();
-        }catch(IOException e){
-            e.printStackTrace();
+        if(file.exists()){
+            return file;
+        }else{
+            throw new FileNotFoundException();
         }
     }
 }

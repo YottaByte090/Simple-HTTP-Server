@@ -24,10 +24,9 @@
 
 package com.sangwon.httpserver;
 
-import com.sangwon.httpserver.request.RequestParser;
+import com.sangwon.httpserver.preprocessor.Preprocessor;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,6 +41,7 @@ import java.util.List;
 public class HttpServer {
     private ServerSocket serverSocket;
     private List<SocketTask> clientSocket;
+    private Preprocessor preprocessor;
     private int port;
 
     private boolean isAlive = true;
@@ -53,6 +53,20 @@ public class HttpServer {
         }else{
             this.port = port;
         }
+    }
+
+    public HttpServer(int port, Preprocessor preprocessor){
+        if(port < 0 || port > 65535){
+            throw new InvalidParameterException();
+        }else{
+            this.port = port;
+        }
+
+        if(preprocessor != null) this.preprocessor = preprocessor;
+    }
+
+    public Preprocessor getPreprocessor(){
+        return this.preprocessor;
     }
 
     public synchronized void init() throws IOException {
@@ -69,7 +83,7 @@ public class HttpServer {
 
         while(isAlive){
             Socket socket = serverSocket.accept();
-            SocketTask clientTask = new SocketTask(socket);
+            SocketTask clientTask = new SocketTask(this, socket);
 
             clientTask.start();
         }

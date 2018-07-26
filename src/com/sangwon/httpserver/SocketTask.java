@@ -24,8 +24,12 @@
 
 package com.sangwon.httpserver;
 
+import com.sangwon.httpserver.method.Get;
+import com.sangwon.httpserver.method.Post;
 import com.sangwon.httpserver.request.Request;
 import com.sangwon.httpserver.request.RequestParser;
+import com.sangwon.httpserver.response.Response;
+import com.sangwon.httpserver.response.ResponseCode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,15 +45,18 @@ import java.util.Iterator;
  */
 
 public class SocketTask extends Thread {
+    private HttpServer httpServer;
     private Socket socket;
 
-    public SocketTask(Socket socket){
+    public SocketTask(HttpServer httpServer, Socket socket){
+        this.httpServer = httpServer;
         this.socket = socket;
     }
 
     @Override
     public void run(){
         try{
+            System.out.println("IP : " + socket.getInetAddress());
             InputStreamReader input = new InputStreamReader(socket.getInputStream());
             BufferedReader inputBuf = new BufferedReader(input);
 
@@ -64,13 +71,26 @@ public class SocketTask extends Thread {
             }
 
             Request request = RequestParser.parse(requestStr.toString());
+            Response response = new Response();
 
             switch(request.getMethod()){
                 case "GET":
+                    Get get = new Get(request);
 
+                    if(httpServer.getPreprocessor() != null){
+                        response = httpServer.getPreprocessor().getResponse(get);
+                    }else{
+                        response = get.getResponse();
+                    }
                     break;
                 case "POST":
+                    Post post = new Post(request);
 
+                    if(httpServer.getPreprocessor() != null){
+                        response = httpServer.getPreprocessor().getResponse(post);
+                    }else{
+                        response = post.getResponse();
+                    }
                     break;
                 case "PUT":
 
@@ -99,14 +119,17 @@ public class SocketTask extends Thread {
                 default:
 
                     break;
+                }
+
+            socket.getOutputStream().write(response.toString().getBytes("UTF-8"));
+
+            }catch(Exception e){
+            try {
+                socket.getOutputStream().write(ResponseCode.getMessage(500).getBytes("UTF-8"));
+                e.printStackTrace();
+            }catch(Exception ex){
+                ex.printStackTrace();
             }
-
-            socket.getOutputStream().write("HTTP/1.1 200 OK\r\n\r\n<!DOCTYPE html><html><head></head><body><h1>Hello, World!</h1></body></html>".getBytes("UTF-8"));
-            socket.close();
-
-
-        }catch(Exception e){
-            e.printStackTrace();
         }finally{
             try{
                 this.socket.close();

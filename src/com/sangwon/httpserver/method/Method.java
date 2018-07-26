@@ -24,11 +24,25 @@
 
 package com.sangwon.httpserver.method;
 
+import com.sangwon.httpserver.request.Request;
+import com.sangwon.httpserver.response.Response;
+
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-07-08
  */
 
-public class Method {
+public abstract class Method {
+    protected Request request = new Request();
+    protected Response response = new Response();
 
+    public Method(Request request){
+        this.request = request;
+    }
+
+    public Request getRequest(){
+        return this.request;
+    }
+
+    public abstract Response getResponse();
 }

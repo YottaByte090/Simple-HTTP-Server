@@ -24,11 +24,21 @@
 
 package com.sangwon.httpserver.method;
 
+import com.sangwon.httpserver.request.Request;
+import com.sangwon.httpserver.response.Response;
+
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-07-08
  */
 
 public class Delete extends Method {
+    public Delete(Request request){
+        super(request);
+    }
 
+    @Override
+    public Response getResponse(){
+        return this.response;
+    }
 }
