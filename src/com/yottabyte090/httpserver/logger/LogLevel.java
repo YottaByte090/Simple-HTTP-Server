@@ -22,28 +22,17 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.utils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
+package com.yottabyte090.httpserver.logger;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-26
+ * @since 2018-07-27
  */
 
-public class FileLoader{
-    public static File getFile(String filePath) throws FileNotFoundException {
-        File file = new File(System.getProperty("user.dir") + "/root" + filePath);
-
-        if(filePath.equals("/")){
-            file = new File(System.getProperty("user.dir") + "/root/index.html");
-        }
-
-        if(file.exists()){
-            return file;
-        }else{
-            throw new FileNotFoundException();
-        }
-    }
+public enum LogLevel {
+    INFO,
+    NOTICE,
+    WARN,
+    ERROR,
+    FATAL
 }

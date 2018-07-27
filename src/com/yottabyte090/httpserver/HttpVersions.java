@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver;
+package com.yottabyte090.httpserver;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>

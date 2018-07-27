@@ -22,28 +22,57 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.utils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
+package com.yottabyte090.httpserver.logger;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-26
+ * @since 2018-07-27
  */
 
-public class FileLoader{
-    public static File getFile(String filePath) throws FileNotFoundException {
-        File file = new File(System.getProperty("user.dir") + "/root" + filePath);
+public abstract class LoggerBase {
+    public abstract void log(String message);
 
-        if(filePath.equals("/")){
-            file = new File(System.getProperty("user.dir") + "/root/index.html");
-        }
+    public void log(String prefix, String message){
+        log(String.format("[ %s ] %s", prefix, message));
+    }
 
-        if(file.exists()){
-            return file;
-        }else{
-            throw new FileNotFoundException();
+    public void log(LogLevel level, String message){
+        switch(level){
+            case INFO:
+                info(message);
+                break;
+            case NOTICE:
+                notice(message);
+                break;
+            case WARN:
+                warn(message);
+                break;
+            case ERROR:
+                error(message);
+                break;
+            case FATAL:
+                fatal(message);
+                break;
         }
+    }
+
+    public void info(String message){
+        log("INFO", message);
+    }
+
+    public void notice(String message){
+        log("NOTICE", message);
+    }
+
+    public void warn(String message){
+        log("WARN", message);
+    }
+
+    public void error(String message){
+        log("ERROR", message);
+    }
+
+    public void fatal(String message){
+        log("FATAL", message);
     }
 }

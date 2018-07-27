@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver.preprocessor;
+package com.yottabyte090.httpserver.preprocessor;
 
-import com.sangwon.httpserver.method.Method;
-import com.sangwon.httpserver.request.Request;
-import com.sangwon.httpserver.response.Response;
+import com.yottabyte090.httpserver.method.Method;
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.response.Response;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>

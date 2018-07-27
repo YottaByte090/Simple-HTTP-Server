@@ -22,28 +22,50 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.utils;
+package com.yottabyte090.httpserver.logger;
+
+import com.yottabyte090.httpserver.WebServer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-26
+ * @since 2018-07-27
  */
 
-public class FileLoader{
-    public static File getFile(String filePath) throws FileNotFoundException {
-        File file = new File(System.getProperty("user.dir") + "/root" + filePath);
+public class FileLogger extends LoggerBase {
+    private FileWriter logWriter;
+    private String newLine;
 
-        if(filePath.equals("/")){
-            file = new File(System.getProperty("user.dir") + "/root/index.html");
+    public FileLogger(File logFile, String newLine){
+        try {
+            this.logWriter = new FileWriter(logFile);
+            this.newLine = newLine;
+        }catch(Exception e){
+            WebServer.exception(e);
         }
+    }
 
-        if(file.exists()){
-            return file;
-        }else{
-            throw new FileNotFoundException();
+    public void finalize() {
+        try {
+            logWriter.close();
+        }catch(Exception e){
+            WebServer.exception(e);
+        }
+    }
+
+    @Override
+    public void log(String message){
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            logWriter.write(String.format("%s %s %s", dateFormat.format(new Date()), message, newLine));
+            logWriter.flush();
+        }catch(Exception e){
+            WebServer.exception(e);
         }
     }
 }

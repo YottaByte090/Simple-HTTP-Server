@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver;
+package com.yottabyte090.httpserver;
 
-import com.sangwon.httpserver.method.Get;
-import com.sangwon.httpserver.method.Post;
-import com.sangwon.httpserver.request.Request;
-import com.sangwon.httpserver.request.RequestParser;
-import com.sangwon.httpserver.response.Response;
-import com.sangwon.httpserver.response.ResponseCode;
+import com.yottabyte090.httpserver.method.Get;
+import com.yottabyte090.httpserver.method.Post;
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.request.RequestParser;
+import com.yottabyte090.httpserver.response.Response;
+import com.yottabyte090.httpserver.response.ResponseCode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Iterator;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -56,7 +54,7 @@ public class SocketTask extends Thread {
     @Override
     public void run(){
         try{
-            System.out.println("IP : " + socket.getInetAddress());
+            WebServer.getLogger().info("New connection : " + socket.getInetAddress());
             InputStreamReader input = new InputStreamReader(socket.getInputStream());
             BufferedReader inputBuf = new BufferedReader(input);
 
@@ -72,6 +70,8 @@ public class SocketTask extends Thread {
 
             Request request = RequestParser.parse(requestStr.toString());
             Response response = new Response();
+
+            WebServer.getLogger().info(request.getMethod() + ' ' + request.getUri());
 
             switch(request.getMethod()){
                 case "GET":

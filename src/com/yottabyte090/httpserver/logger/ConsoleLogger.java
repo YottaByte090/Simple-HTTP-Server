@@ -22,28 +22,21 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.utils;
+package com.yottabyte090.httpserver.logger;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-26
+ * @since 2018-07-27
  */
 
-public class FileLoader{
-    public static File getFile(String filePath) throws FileNotFoundException {
-        File file = new File(System.getProperty("user.dir") + "/root" + filePath);
-
-        if(filePath.equals("/")){
-            file = new File(System.getProperty("user.dir") + "/root/index.html");
-        }
-
-        if(file.exists()){
-            return file;
-        }else{
-            throw new FileNotFoundException();
-        }
+public class ConsoleLogger extends LoggerBase {
+    @Override
+    public void log(String message){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(String.format("%s %s", dateFormat.format(new Date()), message));
     }
 }

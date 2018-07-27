@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver.method;
+package com.yottabyte090.httpserver.method;
 
-import com.sangwon.httpserver.request.Request;
-import com.sangwon.httpserver.response.Response;
-import com.sangwon.httpserver.response.ResponseCode;
-import com.sangwon.httpserver.utils.FileLoader;
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.response.Response;
+import com.yottabyte090.httpserver.response.ResponseCode;
+import com.yottabyte090.httpserver.utils.FileLoader;
 
 import java.io.*;
 

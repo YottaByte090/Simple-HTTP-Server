@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver.request;
-
-import com.sangwon.httpserver.HttpVersions;
+package com.yottabyte090.httpserver.request;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;

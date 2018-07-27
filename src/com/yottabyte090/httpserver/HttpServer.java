@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver;
+package com.yottabyte090.httpserver;
 
-import com.sangwon.httpserver.preprocessor.Preprocessor;
+import com.yottabyte090.httpserver.preprocessor.Preprocessor;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -97,10 +97,11 @@ public class HttpServer {
             }
 
             for(SocketTask client : clientSocket){
+                // ERROR ERROR ERROR!!!
                 client.close();
             }
 
-            System.out.println("서버 종료");
+            WebServer.getLogger().info("서버가 종료되었습니다.");
         }catch(IOException e){
             e.printStackTrace();
         }

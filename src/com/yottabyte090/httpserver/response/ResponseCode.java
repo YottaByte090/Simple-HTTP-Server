@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.sangwon.httpserver.response;
+package com.yottabyte090.httpserver.response;
 
 import java.util.TreeMap;
 
