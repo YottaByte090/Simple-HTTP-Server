@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yottabyte090</groupId>
-    <artifactId>simple-http-server</artifactId>
+    <artifactId>Simple-HTTP-Server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Simple HTTP Server</name>
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean install package</defaultGoal>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
@@ -26,7 +26,11 @@
                 <version>2.3.1</version>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.yottabyte090.httpserver.WebServer</mainClass>
+                        </manifest>
                     </archive>
                 </configuration>
             </plugin>
