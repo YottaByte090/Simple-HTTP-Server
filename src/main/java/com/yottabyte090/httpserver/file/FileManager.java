@@ -22,50 +22,30 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver;
-import com.yottabyte090.httpserver.logger.*;
+package com.yottabyte090.httpserver.file;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-08
+ * @since 2018-07-28
  */
 
-public class WebServer {
-    private static MultiLogger logger = new MultiLogger();
+public class FileManager {
+    public static File getLogFile() throws IOException {
+        File file =  new File(DirectoryManager.getLogDir() + new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date()) + ".log");
+        if(!file.exists()) file.createNewFile();
 
-    public static void exception(Exception e){
-        e.printStackTrace();
+        return file;
     }
 
-    public static void main(String[] args){
-        new File(System.getProperty("user.dir") + "/logs").mkdirs();
+    public static File getConfigFile() throws IOException {
+        File file = new File(DirectoryManager.getHomeDir() + "Config.json");
+        if(!file.exists()) file.createNewFile();
 
-        if(System.getProperty("os.name").toLowerCase().contains("win")){
-            logger.addLogger(new ConsoleLogger());
-            logger.addLogger(new FileLogger(new File(System.getProperty("user.dir") + "/logs/" + new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date()) + ".log"), "\r\n"));
-        }else{
-            logger.addLogger(new ColoredConsoleLogger());
-            logger.addLogger(new FileLogger(new File(System.getProperty("user.dir") + "/logs/" + new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date()) + ".log"), "\n"));
-        }
-
-        HttpServer server = new HttpServer(80);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
-
-        try{
-            server.start();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static LoggerBase getLogger(){
-        return logger;
+        return file;
     }
 }

@@ -97,8 +97,7 @@ public class HttpServer {
             }
 
             for(SocketTask client : clientSocket){
-                // ERROR ERROR ERROR!!!
-                client.close();
+                if(client != null)  client.close();
             }
 
             WebServer.getLogger().info("서버가 종료되었습니다.");
