@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Simple HTTP Server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Simple_HTTP_Server_jar</output-path>
+    <root id="archive" name="Simple HTTP Server.jar">
+      <element id="module-output" name="Simple HTTP Server" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/json-simple-1.1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
