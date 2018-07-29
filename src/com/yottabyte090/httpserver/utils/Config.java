@@ -26,8 +26,11 @@ package com.yottabyte090.httpserver.utils;
 
 import com.yottabyte090.httpserver.file.ResourceManager;
 
+import org.json.simple.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -36,9 +39,10 @@ import java.io.IOException;
 
 public class Config {
     public Config(File configFile){
+        JSONObject obj = new JSONObject();
     }
 
-    public static File createNewConfig(File file) throws IOException {
+    public static File createNewConfig(File file) throws IOException, InvalidParameterException {
         file.createNewFile();
         ResourceManager.resourceToFile("/Config.json", file);
 

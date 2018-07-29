@@ -25,6 +25,7 @@
 package com.yottabyte090.httpserver.file;
 
 import java.io.*;
+import java.security.InvalidParameterException;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -32,19 +33,24 @@ import java.io.*;
  */
 
 public class ResourceManager {
-    public static void resourceToFile(String resourcePath, File file) throws IOException {
-        System.out.println("resourceToFile");
-        InputStream input = ResourceManager.class.getResourceAsStream(resourcePath);
-        FileOutputStream output = new FileOutputStream(file);
+    public static void resourceToFile(String resourcePath, File file) throws IOException, InvalidParameterException {
+        InputStream input =  ResourceManager.class.getResourceAsStream(resourcePath);
+        OutputStream output = new FileOutputStream(file);
 
-        byte[] buffer = new byte[1024];
-        int length;
+        if(input == null) throw new InvalidParameterException();
 
-        while((length = input.read(buffer)) > 0){
-            output.write(buffer, 0, length);
+        try{
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while((length = input.read(buffer)) > 0){
+                output.write(buffer, 0, length);
+            }
+        }catch(IOException | InvalidParameterException ex){
+            throw ex;
+        } finally{
+            input.close();
+            output.close();
         }
-
-        input.close();
-        output.close();
     }
 }

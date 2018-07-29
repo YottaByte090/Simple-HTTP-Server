@@ -28,6 +28,7 @@ import com.yottabyte090.httpserver.utils.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,7 +45,7 @@ public class FileManager {
         return file;
     }
 
-    public static File getConfigFile() throws IOException {
+    public static File getConfigFile() throws IOException, InvalidParameterException {
         File file = new File(DirectoryManager.getHomeDir() + "Config.json");
         if(!file.exists()) file = Config.createNewConfig(file);
 

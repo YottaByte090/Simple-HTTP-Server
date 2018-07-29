@@ -62,7 +62,7 @@ public class WebServer {
 
             Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
             server.start();
-        }catch(IOException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
