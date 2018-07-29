@@ -22,16 +22,32 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.utils;
+package com.yottabyte090.httpserver.file;
+
+import com.yottabyte090.httpserver.utils.Config;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-07-28
  */
 
-public class Config {
-    public Config(File configFile){
+public class FileManager {
+    public static File getLogFile() throws IOException {
+        File file =  new File(DirectoryManager.getLogDir() + new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date()) + ".log");
+        if(!file.exists()) file.createNewFile();
+
+        return file;
+    }
+
+    public static File getConfigFile() throws IOException {
+        File file = new File(DirectoryManager.getHomeDir() + "Config.json");
+        if(!file.exists()) file = Config.createNewConfig(file);
+
+        return file;
     }
 }
