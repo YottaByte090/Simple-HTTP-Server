@@ -34,8 +34,8 @@ import com.yottabyte090.httpserver.response.Response;
  */
 
 public abstract class Preprocessor {
-    private Request request;
-    private Response response;
+    protected Request request;
+    protected Response response;
 
     public Preprocessor(Method method){
         this.request = method.getRequest();

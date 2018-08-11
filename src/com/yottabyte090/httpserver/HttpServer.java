@@ -100,7 +100,7 @@ public class HttpServer {
                 if(client != null)  client.close();
             }
 
-            WebServer.getLogger().info("서버가 종료되었습니다.");
+            Application.getLogger().info("서버가 종료되었습니다.");
         }catch(IOException e){
             e.printStackTrace();
         }

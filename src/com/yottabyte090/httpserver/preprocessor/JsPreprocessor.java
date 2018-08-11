@@ -22,50 +22,26 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.logger;
+package com.yottabyte090.httpserver.preprocessor;
 
-import com.yottabyte090.httpserver.Application;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.yottabyte090.httpserver.method.Method;
+import com.yottabyte090.httpserver.response.Response;
+import org.mozilla.javascript.Context;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-27
+ * @since 2018-07-29
  */
 
-public class FileLogger extends LoggerBase {
-    private FileWriter logWriter;
-    private String newLine;
+public class JsPreprocessor extends Preprocessor {
+    private Context context = Context.getCurrentContext();
 
-    public FileLogger(File logFile, String newLine){
-        try {
-            this.logWriter = new FileWriter(logFile);
-            this.newLine = newLine;
-        }catch(Exception e){
-            Application.exception(e);
-        }
-    }
-
-    public void finalize() {
-        try {
-            logWriter.close();
-        }catch(Exception e){
-            Application.exception(e);
-        }
+    public JsPreprocessor(Method method){
+        super(method);
     }
 
     @Override
-    public void log(String message){
-        try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            logWriter.write(String.format("%s %s %s", dateFormat.format(new Date()), message, newLine));
-            logWriter.flush();
-        }catch(Exception e){
-            Application.exception(e);
-        }
+    public Response getResponse(Method method) {
+        return null;
     }
 }

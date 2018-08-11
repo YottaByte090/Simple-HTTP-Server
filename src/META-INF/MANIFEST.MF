@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.yottabyte090.httpserver.WebServer
+Main-Class: com.yottabyte090.httpserver.Application
 

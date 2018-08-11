@@ -38,7 +38,7 @@ import java.util.logging.Logger;
  * @since 2018-07-08
  */
 
-public class WebServer {
+public class Application {
     private static MultiLogger logger = new MultiLogger();
     private static Config config;
     private static HttpServer server;

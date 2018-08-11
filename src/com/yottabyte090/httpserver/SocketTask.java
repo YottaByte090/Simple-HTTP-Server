@@ -54,7 +54,7 @@ public class SocketTask extends Thread {
     @Override
     public void run(){
         try{
-            WebServer.getLogger().info("New connection : " + socket.getInetAddress());
+            Application.getLogger().info("New connection : " + socket.getInetAddress());
             InputStreamReader input = new InputStreamReader(socket.getInputStream());
             BufferedReader inputBuf = new BufferedReader(input);
 
@@ -71,7 +71,7 @@ public class SocketTask extends Thread {
             Request request = RequestParser.parse(requestStr.toString());
             Response response = new Response();
 
-            WebServer.getLogger().info(request.getMethod() + ' ' + request.getUri());
+            Application.getLogger().info(request.getMethod() + ' ' + request.getUri());
 
             switch(request.getMethod()){
                 case "GET":
@@ -119,11 +119,10 @@ public class SocketTask extends Thread {
                 default:
 
                     break;
-                }
+            }
 
             socket.getOutputStream().write(response.toString().getBytes("UTF-8"));
-
-            }catch(Exception e){
+        }catch(Exception e){
             try {
                 socket.getOutputStream().write(ResponseCode.getMessage(500).getBytes("UTF-8"));
                 e.printStackTrace();
