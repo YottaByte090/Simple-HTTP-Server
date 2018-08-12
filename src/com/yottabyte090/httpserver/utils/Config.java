@@ -26,9 +26,13 @@ package com.yottabyte090.httpserver.utils;
 
 import com.yottabyte090.httpserver.file.ResourceManager;
 
-import org.json.simple.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 
@@ -38,8 +42,12 @@ import java.security.InvalidParameterException;
  */
 
 public class Config {
-    public Config(File configFile){
-        JSONObject obj = new JSONObject();
+    private JSONObject json;
+
+    public Config(File configFile) throws FileNotFoundException, ParseException, IOException {
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(new FileReader(configFile));
+        json = (JSONObject) obj;
     }
 
     public static File createNewConfig(File file) throws IOException, InvalidParameterException {
@@ -47,5 +55,9 @@ public class Config {
         ResourceManager.resourceToFile("/Config.json", file);
 
         return file;
+    }
+
+    public Object getValue(String key){
+        return json.get(key);
     }
 }

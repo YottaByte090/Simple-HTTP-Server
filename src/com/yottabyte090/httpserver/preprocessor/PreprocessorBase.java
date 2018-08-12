@@ -25,17 +25,14 @@
 package com.yottabyte090.httpserver.preprocessor;
 
 import com.yottabyte090.httpserver.method.Method;
+import com.yottabyte090.httpserver.request.Request;
 import com.yottabyte090.httpserver.response.Response;
-import org.mozilla.javascript.Context;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-29
+ * @since 2018-07-24
  */
 
-public class JsPreprocessor extends PreprocessorBase {
-    @Override
-    public byte[] process(byte[] body) {
-        return null;
-    }
+public abstract class PreprocessorBase {
+    public abstract byte[] process(byte[] body);
 }

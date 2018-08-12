@@ -1,3 +1,5 @@
 {
-  "forceAnsiEscape": false
+  "logger.forceAnsiEscape": false,
+  "preprocessor.preprocessor" : "default",
+  "router.router": "default"
 }

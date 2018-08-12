@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.preprocessor;
+package com.yottabyte090.httpserver.router;
 
-import com.yottabyte090.httpserver.method.Method;
-import com.yottabyte090.httpserver.response.Response;
-import org.mozilla.javascript.Context;
+import java.io.File;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-29
+ * @since 2018-08-11
  */
 
-public class JsPreprocessor extends PreprocessorBase {
+public class JsRouter extends RouterBase {
+    public JsRouter(File routerScript){
+
+    }
+
     @Override
-    public byte[] process(byte[] body) {
+    public byte[] getResource(String url) {
         return null;
     }
 }

@@ -52,4 +52,8 @@ public class DirectoryManager {
     public static String getLogDir(){
         return getDirectory("logs/");
     }
+
+    public static String getRouterDir(){
+        return getDirectory("routers/");
+    }
 }

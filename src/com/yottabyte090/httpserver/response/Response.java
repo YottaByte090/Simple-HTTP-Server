@@ -24,8 +24,11 @@
 
 package com.yottabyte090.httpserver.response;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -37,43 +40,53 @@ public class Response {
     private int statusCode;
     private String statusMessage;
     private LinkedHashMap<String, String> fields = new LinkedHashMap<String, String>();
-    private String body;
+    private byte[] body;
 
     public String getVersion(){
         return this.version;
     }
 
-    public void setVersion(String version){
+    public Response setVersion(String version){
         this.version = version;
+
+        return this;
     }
 
     public int getStatus(){
         return this.statusCode;
     }
 
-    public void setStatus(int code){
+    public Response setStatus(int code){
         this.statusCode = code;
         this.statusMessage = ResponseCode.getMessage(code);
+
+        return this;
     }
 
     public LinkedHashMap<String, String> getFields() {
         return this.fields;
     }
 
-    public void setField(String key, String value){
+    public Response setField(String key, String value){
         this.fields.put(key, value);
+
+        return this;
     }
 
-    public void removeField(String key){
+    public Response removeField(String key){
         this.fields.remove(key);
+
+        return this;
     }
 
-    public String getBody(){
+    public byte[] getBody(){
         return this.body;
     }
 
-    public void setBody(String body){
+    public Response setBody(byte[] body){
         this.body = body;
+
+        return this;
     }
 
     @Override
@@ -95,5 +108,38 @@ public class Response {
         if(this.body != null) buffer.append("\r\n\r\n" + body);
 
         return buffer.toString();
+    }
+
+    public byte[] getBytes(){
+        StringBuffer buffer = new StringBuffer();
+        ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
+
+        buffer.append(this.version);
+        buffer.append(' ' + this.statusCode);
+        buffer.append(' ' + this.statusMessage);
+
+        Iterator<String> keys = fields.keySet().iterator();
+
+        while(keys.hasNext()) {
+            String key = keys.next();
+            String value = fields.get(key);
+            buffer.append("\r\n" + key + ": " + value);
+        }
+
+        if(this.body != null){
+            buffer.append("\r\n\r\n");
+        }
+
+        for(byte b : buffer.toString().getBytes()){
+            baoStream.write(b);
+        }
+
+        if(this.body != null){
+            for(byte b : this.getBody()){
+                baoStream.write(b);
+            }
+        }
+
+        return baoStream.toByteArray();
     }
 }

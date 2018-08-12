@@ -22,20 +22,43 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.preprocessor;
+package com.yottabyte090.httpserver.router;
 
-import com.yottabyte090.httpserver.method.Method;
-import com.yottabyte090.httpserver.response.Response;
-import org.mozilla.javascript.Context;
+import com.yottabyte090.httpserver.file.DirectoryManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-29
+ * @since 2018-08-11
  */
 
-public class JsPreprocessor extends PreprocessorBase {
+public class DefaultRouter extends RouterBase {
     @Override
-    public byte[] process(byte[] body) {
-        return null;
+    public byte[] getResource(String url) throws IOException {
+        File file;
+
+        if(url.equals("/")){
+            file = new File(DirectoryManager.getRootDir() + "/index.html");
+        }else{
+            file = new File(DirectoryManager.getRootDir() + url);
+        }
+
+        if(file.exists()){
+            byte[] data = new byte[(int) file.length()];
+            FileInputStream fiStream = new FileInputStream(file);
+            fiStream.read(data);
+            fiStream.close();
+
+            return data;
+        }else{
+            throw new IOException("File Not Found");
+        }
     }
 }

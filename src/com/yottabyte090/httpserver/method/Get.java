@@ -46,22 +46,17 @@ public class Get extends Method {
         this.response.setVersion(request.getVersion());
         try{
             File file = FileLoader.getFile(request.getUri());
-            FileReader fReader = new FileReader(file);
-            BufferedReader bReader = new BufferedReader(fReader);
-            String fileContent = "";
-            int currentFileContent;
+            FileInputStream fiStream = new FileInputStream(file);
+            byte[] fileData = new byte[(int) file.length()];
+            fiStream.read(fileData);
 
-            while ((currentFileContent = fReader.read()) != -1) {
-                fileContent += (char) currentFileContent;
-            }
-
-            this.response.setBody(fileContent);
+            this.response.setBody(fileData);
         }catch(FileNotFoundException fileNotFoundEx){
             this.response.setStatus(404);
-            this.response.setBody(ResponseCode.getMessage(404));
+            this.response.setBody(ResponseCode.getMessage(404).getBytes());
         }catch(IOException ioEx){
             this.response.setStatus(500);
-            this.response.setBody(ResponseCode.getMessage((500)));
+            this.response.setBody(ResponseCode.getMessage((500)).getBytes());
         }
         return this.response;
     }

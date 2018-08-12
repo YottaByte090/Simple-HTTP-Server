@@ -22,24 +22,13 @@
  * SOFTWARE.
  */
 
-package com.yottabyte090.httpserver.preprocessor;
-
-import com.yottabyte090.httpserver.method.Method;
-import com.yottabyte090.httpserver.request.Request;
-import com.yottabyte090.httpserver.response.Response;
+package com.yottabyte090.httpserver.router;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
- * @since 2018-07-24
+ * @since 2018-08-11
  */
 
-public abstract class Preprocessor {
-    protected Request request;
-    protected Response response;
-
-    public Preprocessor(Method method){
-        this.request = method.getRequest();
-    }
-
-    public abstract Response getResponse(Method method);
+public abstract class RouterBase {
+    public abstract byte[] getResource(String url) throws Exception;
 }

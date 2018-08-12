@@ -24,7 +24,8 @@
 
 package com.yottabyte090.httpserver;
 
-import com.yottabyte090.httpserver.preprocessor.Preprocessor;
+import com.yottabyte090.httpserver.preprocessor.PreprocessorBase;
+import com.yottabyte090.httpserver.router.RouterBase;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -41,7 +42,8 @@ import java.util.List;
 public class HttpServer {
     private ServerSocket serverSocket;
     private List<SocketTask> clientSocket;
-    private Preprocessor preprocessor;
+    private PreprocessorBase preprocessor;
+    private RouterBase router;
     private int port;
 
     private boolean isAlive = true;
@@ -55,7 +57,7 @@ public class HttpServer {
         }
     }
 
-    public HttpServer(int port, Preprocessor preprocessor){
+    public HttpServer(int port, PreprocessorBase preprocessor){
         if(port < 0 || port > 65535){
             throw new InvalidParameterException();
         }else{
@@ -65,8 +67,20 @@ public class HttpServer {
         if(preprocessor != null) this.preprocessor = preprocessor;
     }
 
-    public Preprocessor getPreprocessor(){
+    public PreprocessorBase getPreprocessor(){
         return this.preprocessor;
+    }
+
+    public RouterBase getRouter(){
+        return this.router;
+    }
+
+    public void setPreprocessor(PreprocessorBase preprocessor){
+        this.preprocessor = preprocessor;
+    }
+
+    public void setRouter(RouterBase router){
+        this.router = router;
     }
 
     public synchronized void init() throws IOException {

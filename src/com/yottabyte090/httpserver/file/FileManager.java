@@ -27,10 +27,13 @@ package com.yottabyte090.httpserver.file;
 import com.yottabyte090.httpserver.utils.Config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -48,6 +51,13 @@ public class FileManager {
     public static File getConfigFile() throws IOException, InvalidParameterException {
         File file = new File(DirectoryManager.getHomeDir() + "Config.json");
         if(!file.exists()) file = Config.createNewConfig(file);
+
+        return file;
+    }
+
+    public static File getRouterFile(String fileName) {
+        File file = new File(DirectoryManager.getRouterDir() + fileName);
+        if(!file.exists()) return null;
 
         return file;
     }

@@ -31,10 +31,7 @@ import com.yottabyte090.httpserver.request.RequestParser;
 import com.yottabyte090.httpserver.response.Response;
 import com.yottabyte090.httpserver.response.ResponseCode;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -54,11 +51,11 @@ public class SocketTask extends Thread {
     @Override
     public void run(){
         try{
-            Application.getLogger().info("New connection : " + socket.getInetAddress());
+            Application.getLogger().info("새로운 연결 : " + socket.getInetAddress());
             InputStreamReader input = new InputStreamReader(socket.getInputStream());
             BufferedReader inputBuf = new BufferedReader(input);
 
-            OutputStreamWriter output = new OutputStreamWriter(socket.getOutputStream());
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
             String line = inputBuf.readLine();
             StringBuffer requestStr = new StringBuffer();
@@ -75,22 +72,12 @@ public class SocketTask extends Thread {
 
             switch(request.getMethod()){
                 case "GET":
-                    Get get = new Get(request);
-
-                    if(httpServer.getPreprocessor() != null){
-                        response = httpServer.getPreprocessor().getResponse(get);
-                    }else{
-                        response = get.getResponse();
-                    }
+                    response.setBody(httpServer.getPreprocessor().process(httpServer.getRouter().getResource(request.getUri())))
+                            .setStatus(200)
+                            .setVersion("HTTP/1.1");
                     break;
                 case "POST":
-                    Post post = new Post(request);
 
-                    if(httpServer.getPreprocessor() != null){
-                        response = httpServer.getPreprocessor().getResponse(post);
-                    }else{
-                        response = post.getResponse();
-                    }
                     break;
                 case "PUT":
 
@@ -121,7 +108,7 @@ public class SocketTask extends Thread {
                     break;
             }
 
-            socket.getOutputStream().write(response.toString().getBytes("UTF-8"));
+            output.write(response.getBytes());
         }catch(Exception e){
             try {
                 socket.getOutputStream().write(ResponseCode.getMessage(500).getBytes("UTF-8"));
