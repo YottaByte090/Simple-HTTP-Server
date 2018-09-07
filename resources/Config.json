@@ -1,5 +1,17 @@
 {
-  "logger.forceAnsiEscape": false,
-  "preprocessor.preprocessor" : "default",
-  "router.router": "default"
+  "Server" : {
+    "BlockSize" : 1048576
+  },
+  "Router" : {
+    "Router" : "default"
+  },
+  "Preprocessor" : {
+    "Preprocessor" : "default",
+    "MaxSize" : 1048576
+  },
+  "Utils" : {
+    "Logger" : {
+
+    }
+  }
 }

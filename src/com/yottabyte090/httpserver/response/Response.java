@@ -25,6 +25,7 @@
 package com.yottabyte090.httpserver.response;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -40,7 +41,7 @@ public class Response {
     private int statusCode;
     private String statusMessage;
     private LinkedHashMap<String, String> fields = new LinkedHashMap<String, String>();
-    private byte[] body;
+    private String body;
 
     public String getVersion(){
         return this.version;
@@ -79,11 +80,11 @@ public class Response {
         return this;
     }
 
-    public byte[] getBody(){
+    public String getBody(){
         return this.body;
     }
 
-    public Response setBody(byte[] body){
+    public Response setBody(String body){
         this.body = body;
 
         return this;
@@ -105,7 +106,7 @@ public class Response {
             buffer.append("\r\n" + key + ": " + value);
         }
 
-        if(this.body != null) buffer.append("\r\n\r\n" + body);
+        buffer.append("\r\n\r\n");
 
         return buffer.toString();
     }
@@ -126,18 +127,10 @@ public class Response {
             buffer.append("\r\n" + key + ": " + value);
         }
 
-        if(this.body != null){
-            buffer.append("\r\n\r\n");
-        }
+        buffer.append("\r\n\r\n");
 
         for(byte b : buffer.toString().getBytes()){
             baoStream.write(b);
-        }
-
-        if(this.body != null){
-            for(byte b : this.getBody()){
-                baoStream.write(b);
-            }
         }
 
         return baoStream.toByteArray();

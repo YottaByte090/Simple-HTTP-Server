@@ -24,8 +24,11 @@
 
 package com.yottabyte090.httpserver.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -45,5 +48,25 @@ public class FileLoader{
         }else{
             throw new FileNotFoundException();
         }
+    }
+
+    public static String readAsString(File file) throws IOException{
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        StringBuffer buffer = new StringBuffer();
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null){
+            buffer.append(currentLine + System.getProperty("line.separator"));
+        }
+
+        return buffer.toString();
+    }
+
+    public static byte[] readAsByteArray(File file) throws IOException {
+        byte[] byteArray = Files.readAllBytes(Paths.get(file.getCanonicalPath()));
+        for(byte b : byteArray){
+            System.out.write(b);
+        }
+        return byteArray;
     }
 }

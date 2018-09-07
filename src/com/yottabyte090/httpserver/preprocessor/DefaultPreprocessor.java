@@ -34,7 +34,7 @@ import com.yottabyte090.httpserver.response.Response;
 
 public class DefaultPreprocessor extends PreprocessorBase {
     @Override
-    public byte[] process(byte[] body) {
+    public String process(String body) {
         return body;
     }
 }

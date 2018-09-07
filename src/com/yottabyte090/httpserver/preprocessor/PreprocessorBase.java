@@ -34,5 +34,5 @@ import com.yottabyte090.httpserver.response.Response;
  */
 
 public abstract class PreprocessorBase {
-    public abstract byte[] process(byte[] body);
+    public abstract String process(String string);
 }

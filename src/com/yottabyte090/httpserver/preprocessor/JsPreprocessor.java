@@ -34,8 +34,9 @@ import org.mozilla.javascript.Context;
  */
 
 public class JsPreprocessor extends PreprocessorBase {
+
     @Override
-    public byte[] process(byte[] body) {
-        return null;
+    public String process(String string) {
+        return "JS PREPROCESSOR!";
     }
 }

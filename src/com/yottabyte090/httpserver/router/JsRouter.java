@@ -40,4 +40,14 @@ public class JsRouter extends RouterBase {
     public byte[] getResource(String url) {
         return null;
     }
+
+    @Override
+    public String getMIME(String url) {
+        return null;
+    }
+
+    @Override
+    public String getPathByUrl(String url) {
+        return null;
+    }
 }

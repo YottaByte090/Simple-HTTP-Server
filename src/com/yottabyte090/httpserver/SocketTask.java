@@ -30,9 +30,11 @@ import com.yottabyte090.httpserver.request.Request;
 import com.yottabyte090.httpserver.request.RequestParser;
 import com.yottabyte090.httpserver.response.Response;
 import com.yottabyte090.httpserver.response.ResponseCode;
+import com.yottabyte090.httpserver.utils.FileLoader;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
@@ -51,7 +53,6 @@ public class SocketTask extends Thread {
     @Override
     public void run(){
         try{
-            Application.getLogger().info("새로운 연결 : " + socket.getInetAddress());
             InputStreamReader input = new InputStreamReader(socket.getInputStream());
             BufferedReader inputBuf = new BufferedReader(input);
 
@@ -66,15 +67,81 @@ public class SocketTask extends Thread {
             }
 
             Request request = RequestParser.parse(requestStr.toString());
-            Response response = new Response();
+            Response response = null;
 
-            Application.getLogger().info(request.getMethod() + ' ' + request.getUri());
+            Application.getLogger().info(request.getMethod() + " Method, Request \'" + request.getUri() + "\' From " + socket.getInetAddress().toString().replaceAll("/", ""));
 
             switch(request.getMethod()){
                 case "GET":
-                    response.setBody(httpServer.getPreprocessor().process(httpServer.getRouter().getResource(request.getUri())))
-                            .setStatus(200)
-                            .setVersion("HTTP/1.1");
+                    Get get = new Get(request);
+                    response = get.getResponse();
+
+                    if(get.getFile() != null){
+                        if(get.getFile().length() <= (long) Application.getConfig().getValue("Preprocessor.MaxSize")){
+                            byte[] header = get.getResponse().setVersion(get.getRequest().getVersion())
+                                    .setStatus(200)
+                                    .toString()
+                                    .getBytes();
+                            byte[] body = httpServer.getPreprocessor().process(FileLoader.readAsString(get.getFile())).getBytes();
+
+                            byte[] data = new byte[header.length + body.length];
+                            System.arraycopy(header, 0, data, 0, header.length);
+                            System.arraycopy(body, 0, data, header.length, body.length);
+
+                            output.write(data);
+                            output.flush();
+                        }else if(get.getFile().length() <= (long) Application.getConfig().getValue("Server.BlockSize")){
+                            byte[] header = get.getResponse().setVersion(get.getRequest().getVersion())
+                                    .setStatus(200)
+                                    .toString()
+                                    .getBytes();
+                            byte[] body = FileLoader.readAsByteArray(get.getFile());
+
+                            byte[] data = new byte[header.length + body.length];
+                            System.arraycopy(header, 0, data, 0, header.length);
+                            System.arraycopy(body, 0, data, header.length, body.length);
+
+                            output.write(data);
+                            output.flush();
+                        }else{
+                            byte[] header = get.getResponse().setVersion(get.getRequest().getVersion())
+                                    .setStatus(200)
+                                    .toString()
+                                    .getBytes();
+                            output.write(header);
+                            output.flush();
+
+                            long fileSize = get.getFile().length();
+                            long blockSize = (long) Application.getConfig().getValue("Server.BlockSize");
+                            long blockCount = fileSize / blockSize;
+                            long extraSize = fileSize % blockSize;
+
+                            System.out.printf("fileSize : %d\nblockSize : %d\nblockCount : %d\nextraSize : %d\n", fileSize, blockSize, blockCount, extraSize);
+
+                            FileInputStream fis = new FileInputStream(get.getFile());
+
+                            for(int i=0; i<blockCount; i++){
+                                byte[] data = new byte[(int) blockSize ];
+                                System.out.println(i);
+
+                                fis.read(data, 0, (int) blockSize);
+                                output.write(data);
+                                output.flush();
+
+                            }
+
+                            if(extraSize != 0){
+                                byte[] extraData = new byte[(int) extraSize];
+
+                                fis.read(extraData, 0, (int) extraSize);
+                                output.write(extraData);
+                                output.flush();
+                            }
+                        }
+                    }else{
+                        socket.getOutputStream().write(ResponseCode.getMessage(404).getBytes());
+                    }
+
                     break;
                 case "POST":
 
@@ -108,7 +175,6 @@ public class SocketTask extends Thread {
                     break;
             }
 
-            output.write(response.getBytes());
         }catch(Exception e){
             try {
                 socket.getOutputStream().write(ResponseCode.getMessage(500).getBytes("UTF-8"));

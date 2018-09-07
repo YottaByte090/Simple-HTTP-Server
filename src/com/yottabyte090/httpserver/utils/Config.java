@@ -57,7 +57,14 @@ public class Config {
         return file;
     }
 
-    public Object getValue(String key){
-        return json.get(key);
+    public Object getValue(String key) {
+        String subKeys[] = key.split("\\.");
+        JSONObject targetObject = this.json;
+
+        for(int i=0; i<subKeys.length - 1; i++){
+            targetObject = (JSONObject) json.get(subKeys[i]);
+        }
+
+        return targetObject.get(subKeys[subKeys.length - 1]);
     }
 }

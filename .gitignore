@@ -43,5 +43,6 @@ fabric.properties
 root/
 logs/
 target/
+routers/
 
 /Config.json

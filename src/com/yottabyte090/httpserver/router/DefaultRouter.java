@@ -42,23 +42,31 @@ import java.nio.file.Paths;
 public class DefaultRouter extends RouterBase {
     @Override
     public byte[] getResource(String url) throws IOException {
-        File file;
-
-        if(url.equals("/")){
-            file = new File(DirectoryManager.getRootDir() + "/index.html");
-        }else{
-            file = new File(DirectoryManager.getRootDir() + url);
-        }
+        File file = new File(getPathByUrl(url));
 
         if(file.exists()){
-            byte[] data = new byte[(int) file.length()];
+            byte[] data = new byte[/*file.length()*/0];
             FileInputStream fiStream = new FileInputStream(file);
             fiStream.read(data);
             fiStream.close();
 
             return data;
         }else{
-            throw new IOException("File Not Found");
+            throw new IOException("File Not Found " + file.getCanonicalPath());
+        }
+    }
+
+    @Override
+    public String getMIME(String url) throws IOException {
+        return Files.probeContentType(Paths.get(getPathByUrl(url)));
+    }
+
+    @Override
+    public String getPathByUrl(String url) {
+        if(url.equals("/")){
+            return DirectoryManager.getRootDir() + "/index.html";
+        }else{
+            return DirectoryManager.getRootDir() + url;
         }
     }
 }

@@ -64,7 +64,7 @@ public class Application {
             config = new Config(FileManager.getConfigFile());;
             server = new HttpServer(80);
 
-            String preprocessor = (String) config.getValue("preprocessor.preprocessor");
+            String preprocessor = (String) config.getValue("Preprocessor.Preprocessor");
 
             switch(preprocessor){
                 case "default":
@@ -82,7 +82,7 @@ public class Application {
                     break;
             }
 
-            String router = (String) config.getValue("router.router");
+            String router = config.getValue("Router.Router").toString();
 
             switch(router){
                 case "default":
@@ -110,5 +110,9 @@ public class Application {
 
     public static LoggerBase getLogger(){
         return logger;
+    }
+
+    public static Config getConfig(){
+        return config;
     }
 }

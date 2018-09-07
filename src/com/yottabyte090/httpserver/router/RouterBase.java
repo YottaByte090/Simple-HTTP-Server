@@ -31,4 +31,6 @@ package com.yottabyte090.httpserver.router;
 
 public abstract class RouterBase {
     public abstract byte[] getResource(String url) throws Exception;
+    public abstract String getMIME(String url) throws Exception;
+    public abstract String getPathByUrl(String url);
 }

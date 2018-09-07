@@ -37,27 +37,25 @@ import java.io.*;
  */
 
 public class Get extends Method {
+    private File file;
+
     public Get(Request request) {
         super(request);
+
+        try{
+            this.file = FileLoader.getFile(request.getUri());
+        }catch(FileNotFoundException e){
+            response.setStatus(404);
+        }
     }
 
     @Override
-    public Response getResponse(){
-        this.response.setVersion(request.getVersion());
-        try{
-            File file = FileLoader.getFile(request.getUri());
-            FileInputStream fiStream = new FileInputStream(file);
-            byte[] fileData = new byte[(int) file.length()];
-            fiStream.read(fileData);
-
-            this.response.setBody(fileData);
-        }catch(FileNotFoundException fileNotFoundEx){
-            this.response.setStatus(404);
-            this.response.setBody(ResponseCode.getMessage(404).getBytes());
-        }catch(IOException ioEx){
-            this.response.setStatus(500);
-            this.response.setBody(ResponseCode.getMessage((500)).getBytes());
-        }
+    public Response getResponse() {
         return this.response;
+    }
+
+    public File getFile(){
+        if(this.file != null) return this.file;
+        return null;
     }
 }
