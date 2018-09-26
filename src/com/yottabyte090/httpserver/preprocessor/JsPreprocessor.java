@@ -25,6 +25,7 @@
 package com.yottabyte090.httpserver.preprocessor;
 
 import com.yottabyte090.httpserver.method.Method;
+import com.yottabyte090.httpserver.request.Request;
 import com.yottabyte090.httpserver.response.Response;
 import org.mozilla.javascript.Context;
 
@@ -36,7 +37,7 @@ import org.mozilla.javascript.Context;
 public class JsPreprocessor extends PreprocessorBase {
 
     @Override
-    public String process(String string) {
-        return "JS PREPROCESSOR!";
+    public void process(Request request) {
+
     }
 }

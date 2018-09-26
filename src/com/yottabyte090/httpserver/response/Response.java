@@ -41,7 +41,7 @@ public class Response {
     private int statusCode;
     private String statusMessage;
     private LinkedHashMap<String, String> fields = new LinkedHashMap<String, String>();
-    private String body;
+    private byte[] body;
 
     public String getVersion(){
         return this.version;
@@ -80,11 +80,11 @@ public class Response {
         return this;
     }
 
-    public String getBody(){
+    public byte[] getBody(){
         return this.body;
     }
 
-    public Response setBody(String body){
+    public Response setBody(byte[] body){
         this.body = body;
 
         return this;

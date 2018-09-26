@@ -24,6 +24,9 @@
 
 package com.yottabyte090.httpserver.router;
 
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.response.Response;
+
 import java.io.File;
 
 /**
@@ -34,6 +37,11 @@ import java.io.File;
 public class JsRouter extends RouterBase {
     public JsRouter(File routerScript){
 
+    }
+
+    @Override
+    public Response process(Request request){
+        return null;
     }
 
     @Override

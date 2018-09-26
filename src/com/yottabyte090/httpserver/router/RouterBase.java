@@ -24,12 +24,16 @@
 
 package com.yottabyte090.httpserver.router;
 
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.response.Response;
+
 /**
  * @author Sangwon Ryu <yottabyte090 at naver.com>
  * @since 2018-08-11
  */
 
 public abstract class RouterBase {
+    public abstract Response process(Request request);
     public abstract byte[] getResource(String url) throws Exception;
     public abstract String getMIME(String url) throws Exception;
     public abstract String getPathByUrl(String url);

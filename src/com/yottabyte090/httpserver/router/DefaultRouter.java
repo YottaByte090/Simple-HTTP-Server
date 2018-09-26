@@ -25,6 +25,8 @@
 package com.yottabyte090.httpserver.router;
 
 import com.yottabyte090.httpserver.file.DirectoryManager;
+import com.yottabyte090.httpserver.request.Request;
+import com.yottabyte090.httpserver.response.Response;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +42,11 @@ import java.nio.file.Paths;
  */
 
 public class DefaultRouter extends RouterBase {
+    @Override
+    public Response process(Request request){
+        return new Response();
+    }
+
     @Override
     public byte[] getResource(String url) throws IOException {
         File file = new File(getPathByUrl(url));

@@ -25,6 +25,7 @@
 package com.yottabyte090.httpserver.preprocessor;
 
 import com.yottabyte090.httpserver.method.Method;
+import com.yottabyte090.httpserver.request.Request;
 import com.yottabyte090.httpserver.response.Response;
 
 /**
@@ -34,7 +35,7 @@ import com.yottabyte090.httpserver.response.Response;
 
 public class DefaultPreprocessor extends PreprocessorBase {
     @Override
-    public String process(String body) {
-        return body;
+    public void process(Request request) {
+
     }
 }

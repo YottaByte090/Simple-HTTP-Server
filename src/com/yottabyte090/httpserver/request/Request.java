@@ -37,7 +37,7 @@ public class Request {
     private String uri;
     private String version;
     private LinkedHashMap<String, String> fields = new LinkedHashMap<String, String>();
-    private String body;
+    private byte[] body;
 
     public String getMethod(){
         return this.method;
@@ -79,11 +79,11 @@ public class Request {
         this.fields.remove(key);
     }
 
-    public String getBody(){
+    public byte[] getBody(){
         return this.body;
     }
 
-    public void setBody(String body){
+    public void setBody(byte[] body){
         this.body = body;
     }
 
