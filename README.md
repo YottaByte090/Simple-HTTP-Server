@@ -1,9 +1,7 @@
 # Simple HTTP Server
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Warning](https://img.shields.io/badge/Warning-DO%20NOT%20USE-red.svg)
+![Warning](https://img.shields.io/badge/Warning-Deprecated-red.svg
 
-
-Simple HTTP server (and library) written in java.
-
-**Only the GET method works now.**  
-This is not suitable for use now!
+# 개발 중단됨
+Simple HTTP Server 프로젝트는 개발이 중단되었습니다.  
+Kotlin으로 재작성된 [Plutonium](https://github.com/yottabyte090/plutonium) 프로젝트를 이용해 주세요.
